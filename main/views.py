@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 import os
 
 data_path = os.path.abspath("static/toilet_daejeon.csv")
@@ -14,4 +15,5 @@ file.close()
 data = toliet_list[1:80]
 
 def index(request):
-    return render(request,'main/index.html',{'data':data});
+    API_KEY = getattr(settings, 'API_KEY','API_KEY')
+    return render(request,'main/index.html',{'data':data, 'apiKey':API_KEY});
