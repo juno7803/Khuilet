@@ -1,0 +1,63 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<script src="{% static 'script.js' %}"></script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+    </style>
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+    <div id="map"></div>
+    
+    <script>
+    function initMap() {
+      var daejeon = {lat: 36.35111, lng: 127.38500};
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: daejeon
+      });
+      {% for i in data %}
+        // var lat = {{i.18}}
+        // var lng = {{i.19}}
+        // var postion = new google.maps.LatLng(lat,lng);
+        var marker = new google.maps.Marker({
+          position: {lat:{{i.18}},lng: {{i.19}}},
+          map: map
+        });
+        
+        var myCity = new google.maps.Circle({
+          center: {lat:{{i.18}},lng: {{i.19}}},
+          radius: 100,
+          strokeColor: "#0000FF",
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: "#0000FF",
+          fillOpacity: 0.4
+        });
+        myCity.setMap(map);
+
+        var contentString = `
+          <div>
+            <h2>화장실 정보</h2>
+            <p>${{i.18}} 입니다.</p>
+          </div>
+        `
+        // console.log(contentString);
+        var info = new google.maps.InfoWindow({
+          content: contentString,
+          maxWizzzdth:300
+        });
+        // google.maps.event.addListener(marker[i],'click',function(){
+        //   info.open(map,marker[i]);
+        // });
+      {% endfor %}   
+      // console.log(marker);
+    }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdKrZSsLIuxHuu59UCARaAvUtcmaMmBeU&callback=initMap&region=kr">
+    </script>
+  </body>
+</html>
